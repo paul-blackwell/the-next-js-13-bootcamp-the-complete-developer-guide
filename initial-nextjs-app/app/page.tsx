@@ -20,48 +20,38 @@ export default function Home() {
         </nav>
         {/* END NAVBAR */}
         {/* START HEADER */}
-        <div className="h-96 overflow-hidden">
-          <div className="bg-center bg-gradient-to-r from-[#0f1f47] to-[#5f6984] h-full flex justify-center items-center">
-            <h1 className="text-7xl text-white capitalize text-shadow text-center">
-              Meadow Kitchen (Toronto)
-            </h1>
+        <div className="bg-gradient-to-r to-[#5f6984] from-[#0f1f47] p-2">
+          {/* START SEARCH BAR */}
+          <div className="overflow-hidden rounded text-left text-lg py-3 m-auto flex justify-center">
+            <input
+              className="rounded  mr-3 p-2 w-[400px]"
+              type="text"
+              placeholder="State, city or town"
+            />
+            <button className="rounded bg-red-600 px-9 py-2 text-white">Let's go</button>
           </div>
+          {/* END SEARCH BAR */}
         </div>
         {/* END HEADER */}
-        {/* START DESCRIPTION PORTION */}
-        <div className="flex m-auto w-2/3 justify-between items-start -mt-11">
-          <div className="bg-white w-[100%] rounded p-3 shadow">
-            {/* START RESTAURANT NAVBAR */}
-            <nav className="flex text-reg border-b pb-2">
-              <a href="#" className="mr-7">
-                Overview
-              </a>
-              <a href="#" className="mr-7">
-                Menu
-              </a>
-            </nav>
-            {/* END RESTAURANT NAVBAR */}
-            {/* START MENU */}
-            <main className="bg-white mt-5">
-              <div>
-                <div className="mt-4 pb-1 mb-1">
-                  <h1 className="font-bold text-4xl">Menu</h1>
-                </div>
-                <div className="flex flex-wrap justify-between">
-                  {/* START MENU CARD */}
-                  <div className="border rounded p-3 w-[49%] m-3">
-                    <h3 className="font-bold text-lg">Surf and Turf</h3>
-                    <p className="font-light mt-1 text-sm">A well done steak with lobster and rise.</p>
-                    <p className="mt-7">$80.00</p>
-                  </div>
-                  {/* END MENU CARD */}
-                </div>
-              </div>
-            </main>
-            {/* END MENU */}
+        <div className="flex py-4 m-auto w-2/3 justify-between items-start">
+          <div className="w-1/5">
+            <div className="border-b pb-4">
+              <h1 className="mb-2">Region</h1>
+              <p className="font-light text-reg">Toronto</p>
+              <p className="font-light text-reg">Ottawa</p>
+              <p className="font-light text-reg">Montreal</p>
+              <p className="font-light text-reg">Hamilton</p>
+              <p className="font-light text-reg">Kingston</p>
+              <p className="font-light text-reg">Niagara</p>
+            </div>
+            <div className="border-b pb-4 mt-3">
+              <h1 className="mb-2">Cuisine</h1>
+              <p className="font-light text-reg">Mexican</p>
+              <p className="font-light text-reg">Italian</p>
+              <p className="font-light text-reg">Chinese</p>
+            </div>
           </div>
         </div>
-        {/* END DESCRIPTION PORTION */}
       </main>
     </main>
   );
