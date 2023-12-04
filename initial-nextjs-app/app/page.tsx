@@ -33,6 +33,7 @@ export default function Home() {
           {/* END SEARCH BAR */}
         </div>
         {/* END HEADER */}
+        {/* START SEARCH SIDEBAR */}
         <div className="flex py-4 m-auto w-2/3 justify-between items-start">
           <div className="w-1/5">
             <div className="border-b pb-4">
@@ -50,6 +51,47 @@ export default function Home() {
               <p className="font-light text-reg">Italian</p>
               <p className="font-light text-reg">Chinese</p>
             </div>
+            <div className="mt-3 pb-4">
+              <h1 className="mb-2"></h1>
+              <div className="flex">
+                <button className="border w-full text-reg font-light rounded-l p-2">$</button>
+                <button className="border-r border-t border-b w-full text-reg font-light p-2">
+                  $$
+                </button>
+                <button className="border-r border-t border-b w-full text-reg font-light rounded-r p-2">
+                  $$$
+                </button>
+              </div>
+            </div>
+          </div>
+          {/* END SEARCH SIDEBAR */}
+          <div className="w-5/6">
+            {/* START RESTAURANT CARD */}
+            <div className="border-b flex pb-5">
+              <img
+                src="https://resizer.otstatic.com/v2/photos/wide-huge/1/29102635.webp"
+                alt=""
+                className="w-44 rounded"
+              />
+              <div className="pl-5">
+                <h2 className="text-3xl">Bill's Restaurant & Bar</h2>
+                <div className="flex items-start">
+                  <div className="flex mb-2">*****</div>
+                  <p className="ml-2 text-sm">Awesome</p>
+                </div>
+                <div className="mb-9">
+                  <div className="font-light flex text-reg">
+                    <p className="mr-4">$$$</p>
+                    <p className="mr-4">Mexican</p>
+                    <p className="mr-4">Ottawa</p>
+                  </div>
+                </div>
+                <div className="text-red-600">
+                  <a href="">View more information</a>
+                </div>
+              </div>
+            </div>
+            {/* END RESTAURANT CARD */}
           </div>
         </div>
       </main>
