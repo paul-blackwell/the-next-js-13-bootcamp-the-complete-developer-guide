@@ -41,7 +41,6 @@ const fetchRestaurantBySlug = async (slug: string): Promise<Restaurant> => {
 
 export default async function RestaurantDetails({ params }: { params: { slug: string } }) {
   const restaurant = await fetchRestaurantBySlug(params.slug);
-  console.log(restaurant);
 
   return (
     <>
