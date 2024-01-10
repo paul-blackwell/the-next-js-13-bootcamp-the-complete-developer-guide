@@ -3,16 +3,10 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function SearchBar({
-  searchParams,
-}: {
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
+export default function SearchBar() {
   const router = useRouter();
   const [location, setLocation] = useState('');
 
-  // { city: 'toronto' }
-  console.log(searchParams);
 
   return (
     <div className="overflow-hidden rounded text-left text-lg py-3 m-auto flex justify-center">
@@ -26,8 +20,7 @@ export default function SearchBar({
       <button
         className="rounded bg-red-600 px-9 py-2 text-white"
         onClick={() => {
-          if (!location) return;
-          router.push(`/search?city=${location}`);
+          router.push(`/search?city=${location?.toLowerCase()}`);
           setLocation('');
         }}
       >
