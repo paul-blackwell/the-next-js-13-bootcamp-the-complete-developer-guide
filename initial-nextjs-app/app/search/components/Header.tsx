@@ -36,10 +36,10 @@ const fetchRestaurantsByLocation = async (
     restaurants = await prisma.restaurant.findMany({
       where: {
         location: {
-          city: {
+          name: {
             contains: location,
-          }
-        }
+          },
+        },
       },
       select: {
         id: true,
@@ -53,8 +53,7 @@ const fetchRestaurantsByLocation = async (
     });
   }
 
-
-  console.log(restaurants)
+  console.log(restaurants);
   // const restaurant = await prisma.restaurant.findUnique({
   //   where: {
   //     slug,
