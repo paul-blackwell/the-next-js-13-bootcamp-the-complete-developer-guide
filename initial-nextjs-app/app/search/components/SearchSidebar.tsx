@@ -1,38 +1,66 @@
 import { PrismaClient } from '@prisma/client';
+import Link from 'next/link';
 
 const prisma = new PrismaClient();
 
-const fetchLocations = async () => {
+interface LocationType {
+  id: number,
+  name: string,
+}
+
+interface CuisineType {
+  id: number;
+  name: string;
+}
+
+const fetchLocations = async (): Promise<LocationType[]> => {
   return await prisma.location.findMany({
     select: {
       id: true,
       name: true,
-    }
+    },
+  });
+};
+
+const fetchCuisines = async (): Promise<CuisineType[]> => {
+  return await prisma.cuisine.findMany({
+    select: {
+      id: true,
+      name: true,
+    },
   });
 };
 
 
 export default async function SearchSidebar() {
   const locations =  await fetchLocations();
-  console.log(locations);
+  const cuisines = await fetchCuisines();
 
   return (
     <div className="w-1/5">
       <div className="border-b pb-4">
         <h1 className="mb-2">Region</h1>
-
-        {/* <p className="font-light text-reg">Toronto</p>
-        <p className="font-light text-reg">Ottawa</p>
-        <p className="font-light text-reg">Montreal</p>
-        <p className="font-light text-reg">Hamilton</p>
-        <p className="font-light text-reg">Kingston</p>
-        <p className="font-light text-reg">Niagara</p> */}
+        {locations?.map((location) => (
+          <Link
+            className="block font-light text-reg"
+            href={`/search?city=${location.name}`}
+            key={location.id}
+          >
+            {location.name}
+          </Link>
+        ))}
       </div>
       <div className="border-b pb-4 mt-3">
         <h1 className="mb-2">Cuisine</h1>
-        <p className="font-light text-reg">Mexican</p>
-        <p className="font-light text-reg">Italian</p>
-        <p className="font-light text-reg">Chinese</p>
+        {cuisines?.map((cuisine) => (
+          <Link
+            className="block font-light text-reg"
+            href={`/search?cuisine=${cuisine.name}`}
+            key={cuisine.id}
+          >
+            {cuisine.name}
+          </Link>
+        ))}
       </div>
       <div className="mt-3 pb-4">
         <h1 className="mb-2"></h1>
