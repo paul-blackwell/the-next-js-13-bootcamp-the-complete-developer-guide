@@ -5,7 +5,7 @@ import SearchSidebar from './components/SearchSidebar';
 
 const prisma = new PrismaClient();
 
-const fetchRestaurantsBy = async (filter: {
+const fetchRestaurantsBy = async (filter?: {
   city?: string | undefined;
   cuisine?: string | undefined;
 }) => {
@@ -19,10 +19,12 @@ const fetchRestaurantsBy = async (filter: {
     slug: true,
   };
 
-  const { city, cuisine } = filter;
-
   // If no city or cuisine return all restaurants
-  if (city && cuisine) await prisma.restaurant.findMany({ select });
+  if (!filter) return await prisma.restaurant.findMany({ select });
+
+  const { city, cuisine } = filter;
+  // If no city or cuisine return all restaurants
+  if (!city && !cuisine) return await prisma.restaurant.findMany({ select });
 
   // If cuisine set return restaurants based on their cuisine
   if (cuisine) {
