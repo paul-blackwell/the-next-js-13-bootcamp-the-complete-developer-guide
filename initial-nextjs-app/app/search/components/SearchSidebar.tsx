@@ -1,48 +1,21 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Location, Cuisine } from '@prisma/client';
 import Link from 'next/link';
 
-const prisma = new PrismaClient();
 
-interface LocationType {
-  id: number,
-  name: string,
-}
-
-interface CuisineType {
-  id: number;
-  name: string;
-}
-
-const fetchLocations = async (): Promise<LocationType[]> => {
-  return await prisma.location.findMany({
-    select: {
-      id: true,
-      name: true,
-    },
-  });
-};
-
-const fetchCuisines = async (): Promise<CuisineType[]> => {
-  return await prisma.cuisine.findMany({
-    select: {
-      id: true,
-      name: true,
-    },
-  });
-};
-
-
-export default async function SearchSidebar() {
-  const locations =  await fetchLocations();
-  const cuisines = await fetchCuisines();
-
+export default async function SearchSidebar({
+  locations,
+  cuisines,
+}: {
+  locations: Location[];
+  cuisines: Cuisine[];
+}) {
   return (
     <div className="w-1/5">
       <div className="border-b pb-4">
         <h1 className="mb-2">Region</h1>
         {locations?.map((location) => (
           <Link
-            className="block font-light text-reg"
+            className="block font-light text-reg capitalize"
             href={`/search?city=${location.name}`}
             key={location.id}
           >
@@ -54,7 +27,7 @@ export default async function SearchSidebar() {
         <h1 className="mb-2">Cuisine</h1>
         {cuisines?.map((cuisine) => (
           <Link
-            className="block font-light text-reg"
+            className="block font-light text-reg capitalize"
             href={`/search?cuisine=${cuisine.name}`}
             key={cuisine.id}
           >
