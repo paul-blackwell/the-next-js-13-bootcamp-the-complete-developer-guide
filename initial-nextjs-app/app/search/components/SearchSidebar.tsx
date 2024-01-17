@@ -1,4 +1,4 @@
-import { PrismaClient, Location, Cuisine } from '@prisma/client';
+import { Location, Cuisine } from '@prisma/client';
 import Link from 'next/link';
 
 
@@ -16,7 +16,10 @@ export default async function SearchSidebar({
         {locations?.map((location) => (
           <Link
             className="block font-light text-reg capitalize"
-            href={`/search?city=${location.name}`}
+            href={{
+              pathname: '/search',
+              query: {city: location.name},
+            }}
             key={location.id}
           >
             {location.name}
@@ -28,7 +31,10 @@ export default async function SearchSidebar({
         {cuisines?.map((cuisine) => (
           <Link
             className="block font-light text-reg capitalize"
-            href={`/search?cuisine=${cuisine.name}`}
+            href={{
+              pathname: '/search',
+              query: {cuisine: cuisine.name},
+            }}
             key={cuisine.id}
           >
             {cuisine.name}
