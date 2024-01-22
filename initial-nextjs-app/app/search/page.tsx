@@ -63,7 +63,6 @@ const fetchCuisines = async (): Promise<Cuisine[]> => {
   return await prisma.cuisine.findMany();
 };
 
-
 export default async function Search({ searchParams }: { searchParams: SearchParamsType }) {
   const restaurants = await fetchRestaurantsBy(
     searchParams?.cuisine ? { cuisine: searchParams.cuisine } : { city: searchParams.city }
@@ -79,7 +78,9 @@ export default async function Search({ searchParams }: { searchParams: SearchPar
         <SearchSidebar locations={locations} cuisines={cuisines} searchParams={searchParams} />
         <div className="w-5/6">
           {restaurants.length ? (
-            restaurants.map((restaurant) => <RestaurantCard restaurant={restaurant} key={restaurant.id} />)
+            restaurants.map((restaurant) => (
+              <RestaurantCard restaurant={restaurant} key={restaurant.id} />
+            ))
           ) : (
             <p>Sorry, we found no restaurants in that area.</p>
           )}

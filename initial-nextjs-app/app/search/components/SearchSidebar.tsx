@@ -1,13 +1,16 @@
 import { Location, Cuisine } from '@prisma/client';
 import Link from 'next/link';
+import { SearchParamsType } from '../../../types/search';
+import SearchSidebarPriceButton from './SearchSidebarPriceButton';
 
-
-export default async function SearchSidebar({
+export default function SearchSidebar({
   locations,
   cuisines,
+  searchParams,
 }: {
   locations: Location[];
   cuisines: Cuisine[];
+  searchParams: SearchParamsType;
 }) {
   return (
     <div className="w-1/5">
@@ -18,7 +21,10 @@ export default async function SearchSidebar({
             className="block font-light text-reg capitalize"
             href={{
               pathname: '/search',
-              query: {city: location.name},
+              query: {
+                ...searchParams,
+                city: location.name,
+              },
             }}
             key={location.id}
           >
@@ -33,7 +39,10 @@ export default async function SearchSidebar({
             className="block font-light text-reg capitalize"
             href={{
               pathname: '/search',
-              query: {cuisine: cuisine.name},
+              query: {
+                ...searchParams,
+                cuisine: cuisine.name,
+              },
             }}
             key={cuisine.id}
           >
@@ -44,11 +53,23 @@ export default async function SearchSidebar({
       <div className="mt-3 pb-4">
         <h1 className="mb-2"></h1>
         <div className="flex">
-          <button className="border w-full text-reg font-light rounded-l p-2">$</button>
-          <button className="border-r border-t border-b w-full text-reg font-light p-2">$$</button>
-          <button className="border-r border-t border-b w-full text-reg font-light rounded-r p-2">
+          <SearchSidebarPriceButton price="CHEAP" searchParams={searchParams}>
+            $
+          </SearchSidebarPriceButton>
+          <SearchSidebarPriceButton
+            className="rounded-none"
+            price="REGULAR"
+            searchParams={searchParams}
+          >
+            $$
+          </SearchSidebarPriceButton>
+          <SearchSidebarPriceButton
+            className="rounded-l-none rounded-r"
+            price="EXPENSIVE"
+            searchParams={searchParams}
+          >
             $$$
-          </button>
+          </SearchSidebarPriceButton>
         </div>
       </div>
     </div>
