@@ -6,11 +6,7 @@ import { SearchParamsType } from '../../types/search';
 
 const prisma = new PrismaClient();
 
-const fetchRestaurantsBy = async (filter?: {
-  city?: string | undefined;
-  cuisine?: string | undefined;
-  price?: string | undefined;
-}) => {
+const fetchRestaurantsBySearchParams = async (searchParams?: SearchParamsType) => {
   const select = {
     id: true,
     name: true,
@@ -21,36 +17,32 @@ const fetchRestaurantsBy = async (filter?: {
     slug: true,
   };
 
-  // If no city or cuisine return all restaurants
-  if (!filter) return await prisma.restaurant.findMany({ select });
+  const where: any = {};
 
-  const { city, cuisine, price } = filter;
-  // If no city or cuisine return all restaurants
-  if (!city && !cuisine && !price) return await prisma.restaurant.findMany({ select });
-
-  // If cuisine set return restaurants based on their cuisine
-  if (cuisine) {
-    return await prisma.restaurant.findMany({
-      where: {
-        cuisine: {
-          name: {
-            equals: cuisine?.toLowerCase(),
-          },
-        },
+  if (searchParams?.city) {
+    where.location = {
+      name: {
+        equals: searchParams.city.toLowerCase(),
       },
-      select,
-    });
+    };
   }
 
-  // Else return restaurants based on their location
-  return await prisma.restaurant.findMany({
-    where: {
-      location: {
-        name: {
-          equals: city?.toLowerCase(),
-        },
+  if (searchParams?.cuisine) {
+    where.cuisine = {
+      name: {
+        equals: searchParams.cuisine.toLowerCase(),
       },
-    },
+    };
+  }
+
+  if (searchParams?.price) {
+    where.price = {
+      equals: searchParams.price,
+    };
+  }
+
+  return prisma.restaurant.findMany({
+    where,
     select,
   });
 };
@@ -64,11 +56,11 @@ const fetchCuisines = async (): Promise<Cuisine[]> => {
 };
 
 export default async function Search({ searchParams }: { searchParams: SearchParamsType }) {
-  const restaurants = await fetchRestaurantsBy(
-    searchParams?.cuisine ? { cuisine: searchParams.cuisine } : { city: searchParams.city }
-  );
+  const restaurants = await fetchRestaurantsBySearchParams(searchParams);
   const locations = await fetchLocations();
   const cuisines = await fetchCuisines();
+
+  console.log(locations);
 
   return (
     <>
