@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Cuisine, Location, PRICE } from '@prisma/client';
+import { Cuisine, Location, PRICE, Review } from '@prisma/client';
 import Price from '../../components/Price';
 
 interface Restaurant {
@@ -10,6 +10,7 @@ interface Restaurant {
   price: PRICE;
   location: Location;
   cuisine: Cuisine;
+  reviews: Review[]
 }
 
 export default function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {

@@ -15,6 +15,7 @@ const fetchRestaurantsBySearchParams = async (searchParams?: SearchParamsType) =
     cuisine: true,
     location: true,
     slug: true,
+    reviews: true,
   };
 
   const where: any = {};
