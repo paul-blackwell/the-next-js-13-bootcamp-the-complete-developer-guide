@@ -60,8 +60,6 @@ export default async function Search({ searchParams }: { searchParams: SearchPar
   const locations = await fetchLocations();
   const cuisines = await fetchCuisines();
 
-  console.log(locations);
-
   return (
     <>
       <Header />
