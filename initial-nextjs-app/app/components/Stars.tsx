@@ -5,25 +5,27 @@ import Image from 'next/image';
 import { Review } from '@prisma/client';
 import { calculateReviewRatingAverage } from '../../utils/calculateReviewRatingAverage';
 
-export default function Stars ({reviews}: {reviews: Review[]}) {
-  const rating = calculateReviewRatingAverage(reviews);
+export default function Stars({ reviews, rating }: { reviews: Review[]; rating?: number }) {
+  const reviewRating = rating || calculateReviewRatingAverage(reviews);
 
   const renderStars = () => {
-    const stars =[];
+    const stars = [];
 
-    for(let i = 0; i < 5; i++) {
-      const difference = parseFloat((rating - i).toFixed(1));
-      if(difference >=1 ) stars.push({...fullStar, alt: 'Full star' })
-      else  if (difference < 1 && difference > 0) {
-        if (difference <= 0.2) stars.push({...emptyStar, alt: 'Empty star' })
-        else if (difference > 0.2 && difference <= 0.6) stars.push({ ...halfStar, alt: 'Half star' });
+    for (let i = 0; i < 5; i++) {
+      const difference = parseFloat((reviewRating - i).toFixed(1));
+      if (difference >= 1) stars.push({ ...fullStar, alt: 'Full star' });
+      else if (difference < 1 && difference > 0) {
+        if (difference <= 0.2) stars.push({ ...emptyStar, alt: 'Empty star' });
+        else if (difference > 0.2 && difference <= 0.6)
+          stars.push({ ...halfStar, alt: 'Half star' });
         else stars.push({ ...fullStar, alt: 'Full star' });
-      }
-      else stars.push({ ...emptyStar, alt: 'Empty star' });
+      } else stars.push({ ...emptyStar, alt: 'Empty star' });
     }
 
-    return stars.map((star) => <Image className="w-4 h-4 mr-1" src={star} alt={`${star.alt} icon`} />);
-  }
+    return stars.map((star) => (
+      <Image className="w-4 h-4 mr-1" src={star} alt={`${star.alt} icon`} />
+    ));
+  };
 
   return <div className="flex items-center">{renderStars()}</div>;
 }
