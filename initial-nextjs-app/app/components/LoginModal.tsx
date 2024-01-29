@@ -13,7 +13,6 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: 400,
   bgcolor: 'background.paper',
-  border: '2px solid #000',
   boxShadow: 24,
   p: 4,
 };
@@ -38,12 +37,16 @@ export default function LoginModal({ isSignIn }: { isSignIn?: boolean }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+          <div className="p-2">
+            <div className="uppercase font-bold text-center pb-2 border-b mb-2">
+              <p className="text-sm">{isSignIn ? 'Sign in' : 'Create account'}</p>
+            </div>
+            <div className="m-auto">
+              <h2 className="text-2xl font-light text-center">
+                {isSignIn ? 'Log into your account' : 'Create your OpenTable account'}
+              </h2>
+            </div>
+          </div>
         </Box>
       </Modal>
     </div>
