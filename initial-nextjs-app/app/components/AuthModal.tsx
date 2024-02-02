@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import AuthModalInputs from './inputs/AuthModalInputs';
-import { Button } from '@mui/base';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -21,6 +20,19 @@ export default function AuthModal({ isSignIn }: { isSignIn?: boolean }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const handleInputChange = ((e: React.ChangeEvent<HTMLInputElement>) => {
+
+  })
+
+  const [inputs, setInputs] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    city: '',
+    password: '',
+  })
 
   return (
     <div>
@@ -45,7 +57,7 @@ export default function AuthModal({ isSignIn }: { isSignIn?: boolean }) {
               <h2 className="text-2xl font-light text-center">
                 {isSignIn ? 'Log into your account' : 'Create your OpenTable account'}
               </h2>
-              <AuthModalInputs />
+              <AuthModalInputs inputs={inputs} setInputs={setInputs} />
               <button className="uppercase bg-red-600 w-full text-white p-3 rounded text-sm mb-5 disabled:bg-gray-400">
                 {isSignIn ? 'Sign in' : 'Create account'}
               </button>
