@@ -21,9 +21,12 @@ export default function AuthModal({ isSignIn }: { isSignIn?: boolean }) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleInputChange = ((e: React.ChangeEvent<HTMLInputElement>) => {
-
-  })
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputs({
+      ...inputs,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const [inputs, setInputs] = useState({
     firstName: '',
@@ -32,7 +35,7 @@ export default function AuthModal({ isSignIn }: { isSignIn?: boolean }) {
     phone: '',
     city: '',
     password: '',
-  })
+  });
 
   return (
     <div>
@@ -57,7 +60,11 @@ export default function AuthModal({ isSignIn }: { isSignIn?: boolean }) {
               <h2 className="text-2xl font-light text-center">
                 {isSignIn ? 'Log into your account' : 'Create your OpenTable account'}
               </h2>
-              <AuthModalInputs inputs={inputs} setInputs={setInputs} />
+              <AuthModalInputs
+                inputs={inputs}
+                handleInputChange={handleInputChange}
+                isSignIn={isSignIn}
+              />
               <button className="uppercase bg-red-600 w-full text-white p-3 rounded text-sm mb-5 disabled:bg-gray-400">
                 {isSignIn ? 'Sign in' : 'Create account'}
               </button>
