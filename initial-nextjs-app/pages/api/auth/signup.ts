@@ -1,6 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import validator from 'validator';
 import isStrongPassword from 'validator/lib/isStrongPassword';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { firstName, lastName, phone, email, city, password } = req.body;
@@ -41,14 +44,24 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     },
   ];
 
-  validationSchema.forEach(check => {
-    if(!check.valid) {
-      errors.push(check.errorMessage)
+  validationSchema.forEach((check) => {
+    if (!check.valid) {
+      errors.push(check.errorMessage);
     }
-  })
+  });
 
-  if(errors.length) {
-    return res.status(400).json({errorMessage: errors[0]})
+  if (errors.length) {
+    return res.status(400).json({ errorMessage: errors[0] });
+  }
+
+  const userWithEmailAlreadyExists = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+
+  if(userWithEmailAlreadyExists) {
+    return res.status(400).json({ errorMessage: 'A user with this email already exists'})
   }
 
   if (req.method === 'POST') {
