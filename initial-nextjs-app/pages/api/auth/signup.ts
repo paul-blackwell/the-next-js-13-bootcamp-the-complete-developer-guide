@@ -5,6 +5,7 @@ import isStrongPassword from 'validator/lib/isStrongPassword';
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { firstName, lastName, phone, email, city, password } = req.body;
 
+  const errors: string[] = [];
   const validationSchema = [
     {
       valid: validator.isLength(firstName, {
@@ -36,9 +37,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     },
     {
       valid: isStrongPassword(password),
-      errorMessage: 'Password invalid',
+      errorMessage: 'Password is strong enough',
     },
   ];
+
+  validationSchema.forEach(check => {
+    if(!check.valid) {
+      errors.push(check.errorMessage)
+    }
+  })
+
+  if(errors.length) {
+    return res.status(400).json({errorMessage: errors[0]})
+  }
 
   if (req.method === 'POST') {
     res.status(200).json({
