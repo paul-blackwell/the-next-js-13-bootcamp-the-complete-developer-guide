@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import validator from 'validator';
 import isStrongPassword from 'validator/lib/isStrongPassword';
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -64,9 +65,23 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(400).json({ errorMessage: 'A user with this email already exists'})
   }
 
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  // Create user
+  const user = await prisma.user.create({
+    data: {
+      first_name: firstName,
+      last_name: lastName,
+      password: hashedPassword,
+      city,
+      phone,
+      email,
+    }
+  })
+
   if (req.method === 'POST') {
     res.status(200).json({
-      hello: 'test',
+      hello: user,
     });
   }
 };
