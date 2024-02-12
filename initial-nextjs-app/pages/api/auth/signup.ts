@@ -3,6 +3,7 @@ import validator from 'validator';
 import isStrongPassword from 'validator/lib/isStrongPassword';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
+import * as jose from 'jose';
 
 const prisma = new PrismaClient();
 
@@ -61,8 +62,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     },
   });
 
-  if(userWithEmailAlreadyExists) {
-    return res.status(400).json({ errorMessage: 'A user with this email already exists'})
+  if (userWithEmailAlreadyExists) {
+    return res.status(400).json({ errorMessage: 'A user with this email already exists' });
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -76,12 +77,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       city,
       phone,
       email,
-    }
-  })
+    },
+  });
+
+  // Create JWT
+  const alg = 'HS256';
+  const secret = new TextEncoder().encode(process.env.JWT_SECRET)
+  const token = await new jose.SignJWT({ email: user.email })
+    .setProtectedHeader({ alg })
+    .setExpirationTime('24h')
+    .sign(secret);
 
   if (req.method === 'POST') {
     res.status(200).json({
-      hello: user,
+      hello: token,
     });
   }
 };
