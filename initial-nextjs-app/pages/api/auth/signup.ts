@@ -89,8 +89,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       .setExpirationTime('24h')
       .sign(secret);
 
-    res.status(200).json({
-      hello: token,
+    return res.status(200).json({
+      token: token,
     });
   }
 
