@@ -6,7 +6,7 @@ import * as jose from 'jose';
 
 const prisma = new PrismaClient();
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     const errors: string[] = [];
     const { email, password } = req.body;
@@ -62,6 +62,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   return res.status(404).json('Unknown endpoint');
-};
-
-export default handler;
+}
